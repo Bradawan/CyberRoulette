@@ -1,16 +1,14 @@
-function handleRandomLine(line, error) {
-  const outputElement = document.getElementById('output');
-  if (error) {
-    outputElement.textContent = 'Sorry, something went wrong.';
-  } else {
-    outputElement.textContent = line;
-  }
+function handleRandomCredential(type, data) {
+  const elementId = type === 'username' ? 'random-username' : 'random-password';
+  document.getElementById(elementId).textContent = data;
 }
 
-document.getElementById('random-username-btn').addEventListener('click', function() {
-  fetchRandomLine('data/usernames.txt', handleRandomLine);
-});
+function handleError(error) {
+  console.error('Error fetching data:', error);
+  document.getElementById('output').textContent = 'Sorry, something went wrong.';
+}
 
-document.getElementById('random-password-btn').addEventListener('click', function() {
-  fetchRandomLine('data/passwords.txt', handleRandomLine);
+document.getElementById('random-credential-btn').addEventListener('click', function() {
+  fetchRandomLine('data/usernames.txt', data => handleRandomCredential('username', data), handleError);
+  fetchRandomLine('data/passwords.txt', data => handleRandomCredential('password', data), handleError);
 });
